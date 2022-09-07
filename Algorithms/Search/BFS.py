@@ -4,17 +4,18 @@ class Node:
         self.left = left
         self.right = right
 
-def dfs(root, target):
-    stack = []
-    stack.append(root)
-    while stack:
-        node = stack.pop()
+def bfs(root, target):
+    queue = []
+    queue.append(root)
+    while queue:
+        node = queue.pop(0)
         if node.val == target:
             return True
-        if node.right:
-            stack.append(node.right)
         if node.left:
-            stack.append(node.left)
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+        
 
     return False
 
@@ -36,6 +37,6 @@ def construct_tree(preorder):
 def main():
     preorder = [8, 5, 1, 7, 10, 12]
     root = construct_tree(preorder)
-    print(dfs(root, 12))
+    print(bfs(root, 12))
 
 main()
