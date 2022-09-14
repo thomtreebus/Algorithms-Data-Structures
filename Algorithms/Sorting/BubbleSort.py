@@ -14,4 +14,4 @@ def main():
     sorted_arr = bubble_sort(arr)
     print(f"Sorted array: {sorted_arr}")
 
-main()
+main() 
