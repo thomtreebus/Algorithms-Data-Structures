@@ -35,33 +35,17 @@ def astar(grid, start, end):
                 current_node = item
                 current_index = index
 
-        # pop current noded from open list and add to closed list
+        # pop current node from open list and add to closed list
         open_list.pop(current_index)
         closed_list.append(current_node)
 
         # found the goal
         if current_node == end_node:
-            path = []
-            current = current_node 
-            while current:
-                path.append(current.position)
-                current = current.parent
+            path = generate_path(current_node)
             return path[::-1]
         
         # generate children
-        children = []
-        adjacent_squares = [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-        for x, y in adjacent_squares:
-            new_x = current_node.position[0] + x
-            new_y = current_node.position[1] + y
-            if new_x > (len(grid)-1) or new_x < 0 or new_y > (len(grid[0]) - 1) or new_y < 0:
-                continue
-            
-            if grid[new_x][new_y] != '0':
-                continue
-
-            new_node = Node(current_node, (new_x, new_y))
-            children.append(new_node)
+        children = generate_children(grid, current_node)
 
         for child in children:
             if child in closed_list:
@@ -75,6 +59,29 @@ def astar(grid, start, end):
                 continue
             
             open_list.append(child)
+def generate_path(current_node):
+    path = []
+    current = current_node
+    while current:
+        path.append(current.position)
+        current = current.parent
+    return path
+    
+def generate_children(grid, current_node):
+    children = []
+    adjacent_squares = [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+    for x, y in adjacent_squares:
+        new_x = current_node.position[0] + x
+        new_y = current_node.position[1] + y
+        if new_x > (len(grid)-1) or new_x < 0 or new_y > (len(grid[0]) - 1) or new_y < 0:
+            continue
+        
+        if grid[new_x][new_y] != '0':
+            continue
+
+        new_node = Node(current_node, (new_x, new_y))
+        children.append(new_node)
+    return children
 
 def print_path(grid, path):
     grid[path[0][0]][path[0][1]] = 'S'
