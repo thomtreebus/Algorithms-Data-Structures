@@ -3,27 +3,27 @@ class Solution:
         nums.sort()
         res = []
         
-        for i in range(len(nums) - 1):
-            if i == 0 or nums[i] != nums[i-1]:
-                l = i + 1
-                r = len(nums) - 1
+        for left in range(len(nums) - 1):
+            if left == 0 or nums[left] != nums[left-1]:
+                mid = left + 1
+                right = len(nums) - 1
                 
-                # find all triplets starting at i
-                while l < r:
-                    s = nums[l] + nums[r] + nums[i]
+                # find all triplets starting at left
+                while mid < right:
+                    s = nums[mid] + nums[right] + nums[left]
                     
                     if s > 0:
-                        r -= 1
+                        right -= 1
                     elif s < 0:
-                        l += 1
+                        mid += 1
                     else:
-                        res.append([nums[l], nums[r], nums[i]])
+                        res.append([nums[left], nums[right], nums[mid]])
                         # move pointers to prevent duplicates
-                        while l < r and nums[l] == nums[l + 1]:
-                            l += 1
-                        while l < r and nums[r] == nums[r - 1]:
-                            r -= 1
-                        l += 1
-                        r -= 1
+                        while mid < right and nums[mid] == nums[mid + 1]:
+                            mid += 1
+                        while mid < right and nums[right] == nums[right - 1]:
+                            right -= 1
+                        mid += 1
+                        right -= 1
         
         return res
